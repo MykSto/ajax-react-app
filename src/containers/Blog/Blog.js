@@ -9,27 +9,48 @@ import './Blog.css';
 const Blog = () => {
   const [state, setState] = useState({
     posts: [],
+    selectedPostId: null,
   });
 
   useEffect(() => {
-    axios.get('https://jsonplaceholder.typicode.com/posts')
-      .then((response) => {
-        setState({ posts: response.data });
-        // console.log(response);
-      });
-  });
+    async function fetchData() {
+      const result = await axios('https://jsonplaceholder.typicode.com/posts');
+      const posts = result.data.slice(0, 4);
+      const updatedPosts = posts.map((post) => (
+        {
+          ...post,
+          author: 'Michail',
+        }
+      ));
 
-  const posts = state.posts.map((post, key) => (
-    <Post key={key} title={post.title} />
+      setState({ posts: updatedPosts });
+    }
+    fetchData();
+  }, []);
+
+  const postSelectedHandler = (id) => {
+    setState((prevState) => ({
+      ...prevState,
+      selectedPostId: id,
+    }));
+  };
+
+  const posts = state.posts.map((post) => (
+    <Post
+      key={post.id}
+      title={post.title}
+      author={post.author}
+      clicked={() => postSelectedHandler(post.id)}
+    />
   ));
 
   return (
     <div>
       <section className="Posts">
-      {posts}
+        {posts}
       </section>
       <section>
-        <FullPost />
+        <FullPost id={state.selectedPostId} />
       </section>
       <section>
         <NewPost />
