@@ -17,7 +17,7 @@ const NewPost = () => {
       author: state.author,
     };
 
-    axios.post('https://jsonplaceholder.typicode.com/posts', data)
+    axios.post('/posts', data)
       .then((response) => {
         console.log(response);
       });
@@ -32,7 +32,6 @@ const NewPost = () => {
       <label>Content</label>
       <textarea rows="4" value={state.body} onChange={(event) => setState({ ...state, body: event.target.value })} />
       <label>Author</label>
-      {state.body}
       <select value={state.author} onChange={(event) => setState({ ...state, author: event.target.value })}>
         <option value="Michail">Michail</option>
         <option value="Mike">Mike</option>
