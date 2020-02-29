@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import instance from 'axios';
 import Post from 'components/Post/Post';
+import { Link } from 'react-router-dom';
 import styles from './Posts.module.css';
 
 const Posts = () => {
@@ -40,16 +41,15 @@ const Posts = () => {
 
   let posts = <p style={{ textAlign: 'center' }}>Something went wrong!</p>;
 
-  //   if (state.error) {
   posts = state.posts.map((post) => (
-    <Post
-      key={post.id}
-      title={post.title}
-      author={post.author}
-      clicked={() => postSelectedHandler(post.id)}
-    />
+    <Link key={post.id} to={`/${post.id}`}>
+      <Post
+        title={post.title}
+        author={post.author}
+        clicked={() => postSelectedHandler(post.id)}
+      />
+    </Link>
   ));
-  //   }
   return (
     <section className={styles.Posts}>
       {posts}

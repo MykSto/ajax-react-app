@@ -9,22 +9,27 @@ const FullPost = (props) => {
     hits: [],
   });
 
+  // const query = new URLSearchParams(this.props.location.search);
+  //   for (let param of query.entries()) {
+  //       console.log(param); // yields ['start', '5']
+  //   }
+
 
   useEffect(() => {
-    if (props.id) {
+    if (props.match.params.id) {
       if (!state.loadedPost || (state.loadedPost && state.loadedPost.id !== props.id)) {
-        axios.get(`/posts/${props.id}`)
+        axios.get(`/posts/${props.match.params.id}`)
           .then((response) => {
             setState({ loadedPost: response.data });
           });
       }
     }
-  });
+  }, []);
 
   const deletePostHandler = () => {
     axios.delete(`/posts/${props.id}`)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setState({ ...state, loadedPost: response });
       });
   };

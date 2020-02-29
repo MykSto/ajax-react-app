@@ -1,7 +1,8 @@
 import React from 'react';
 import Posts from 'containers/Blog/Posts/Posts';
 import NewPost from 'containers/Blog/NewPost/NewPost';
-import { Route, Link } from 'react-router-dom';
+import FullPost from 'containers/Blog/FullPost/FullPost';
+import { Route, NavLink } from 'react-router-dom';
 import './Blog.css';
 
 const Blog = () => (
@@ -9,9 +10,10 @@ const Blog = () => (
     <header>
       <nav>
         <ul>
-          <li><Link to="/">Home</Link></li>
+          <li><NavLink exact to="/">Home</NavLink></li>
+          {/* to style or add class NavLink -> activeStyle or activeClassName */}
           <li>
-            <Link to={{
+            <NavLink to={{
               // relative path pathname: props.match.url + '/new-post' - path at the end of the current path
               pathname: '/new-post',
               hash: '#submit',
@@ -19,7 +21,7 @@ const Blog = () => (
             }}
             >
               New Post
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </nav>
@@ -27,7 +29,7 @@ const Blog = () => (
     {/* < Route path="/" exact render={()=> <h1>Home</h1>} /> */}
     <Route path="/" exact component={Posts} />
     <Route path="/new-post" component={NewPost} />
-    {/* <Posts /> */}
+    <Route path="/:id" component={FullPost} />
   </div>
 );
 
