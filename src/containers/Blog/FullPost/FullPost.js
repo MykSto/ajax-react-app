@@ -17,20 +17,21 @@ const FullPost = (props) => {
 
   useEffect(() => {
     if (props.match.params.id) {
-      if (!state.loadedPost || (state.loadedPost && state.loadedPost.id !== props.id)) {
-        axios.get(`/posts/${props.match.params.id}`)
-          .then((response) => {
-            setState({ loadedPost: response.data });
-          });
-      }
+    // console.log(state.loadedPost.id);
+      // if (!state.loadedPost || (state.loadedPost && state.loadedPost.id !== props.id)) {
+      axios.get(`/posts/${props.match.params.id}`)
+        .then((response) => {
+          setState({ loadedPost: response.data });
+        });
     }
+    // }
   }, []);
 
   const deletePostHandler = () => {
     axios.delete(`/posts/${props.id}`)
       .then((response) => {
         // console.log(response);
-        setState({ ...state, loadedPost: response });
+        setState({ loadedPost: response });
       });
   };
 
