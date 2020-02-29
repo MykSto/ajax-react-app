@@ -5,6 +5,7 @@ import { Route } from 'react-router-dom';
 import FullPost from 'containers/Blog/FullPost/FullPost';
 import styles from './Posts.module.css';
 
+
 const Posts = (props) => {
   const [state, setState] = useState({
     posts: [],

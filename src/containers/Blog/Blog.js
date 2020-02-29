@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Posts from 'containers/Blog/Posts/Posts';
-import NewPost from 'containers/Blog/NewPost/NewPost';
+// import NewPost from 'containers/Blog/NewPost/NewPost';
+import asyncComponent from 'hoc/asyncComponent';
+
 
 import {
   Route, NavLink, Switch, Redirect,
@@ -9,9 +11,15 @@ import Context from 'context/context';
 
 import './Blog.css';
 
+const AsyncNewPost = asyncComponent(() => {
+  return import('containers/Blog/NewPost/NewPost');
+});
+
+// const Posts = React.lazy(()=> import('containers/Blog/Posts/Posts'))
+
 const Blog = () => {
   const { Provider } = Context;
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState(true);
 
   return (
     <Provider value={{
@@ -40,7 +48,7 @@ const Blog = () => {
         </header>
         {/* < Route path="/" exact render={()=> <h1>Home</h1>} /> */}
         <Switch>
-          {auth ? <Route path="/new-post" component={NewPost} /> : null }
+          {auth ? <Route path="/new-post" component={AsyncNewPost} /> : null }
           <Route path="/posts" component={Posts} />
           <Redirect from="/" to="/posts" />
         </Switch>
