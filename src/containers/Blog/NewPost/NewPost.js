@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import './NewPost.css';
 
 const NewPost = (props) => {
-  const [state, setState] = useState({
+  const [state, setNewPost] = useState({
     title: '',
     body: '',
     author: 'Mike',
+    submitted: false,
   });
-
-  useEffect(()=>{
-    console.log(props);
-  })
 
   const postDataHandler = () => {
     const data = {
@@ -21,22 +19,30 @@ const NewPost = (props) => {
       author: state.author,
     };
 
-    axios.post('/posts', data)
-      .then((response) => {
-        console.log(response);
-      });
+    async function postData() {
+      const result = await axios.post('/posts', data);
+
+      return (
+        result,
+        setNewPost({ ...state, submitted: true })
+        // props.history.replace('/posts');
+        // props.history.push('/posts');
+      );
+    }
+    postData();
   };
 
 
   return (
     <div className="NewPost">
+      {state.submitted && (<Redirect to="/posts" />)}
       <h1>Add a Post</h1>
       <label>Title</label>
-      <input type="text" value={state.title} onChange={(event) => setState({ ...state, title: event.target.value })} />
+      <input type="text" value={state.title} onChange={(event) => setNewPost({ ...state, title: event.target.value })} />
       <label>Content</label>
-      <textarea rows="4" value={state.body} onChange={(event) => setState({ ...state, body: event.target.value })} />
+      <textarea rows="4" value={state.body} onChange={(event) => setNewPost({ ...state, body: event.target.value })} />
       <label>Author</label>
-      <select value={state.author} onChange={(event) => setState({ ...state, author: event.target.value })}>
+      <select value={state.author} onChange={(event) => setNewPost({ ...state, author: event.target.value })}>
         <option value="Michail">Michail</option>
         <option value="Mike">Mike</option>
       </select>
