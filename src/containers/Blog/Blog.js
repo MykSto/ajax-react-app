@@ -1,7 +1,6 @@
 import React from 'react';
 import Posts from 'containers/Blog/Posts/Posts';
 import NewPost from 'containers/Blog/NewPost/NewPost';
-import FullPost from 'containers/Blog/FullPost/FullPost';
 import { Route, NavLink, Switch } from 'react-router-dom';
 import './Blog.css';
 
@@ -10,7 +9,7 @@ const Blog = () => (
     <header>
       <nav>
         <ul>
-          <li><NavLink exact to="/">Home</NavLink></li>
+          <li><NavLink exact to="/posts/">Posts</NavLink></li>
           {/* to style or add class NavLink -> activeStyle or activeClassName */}
           <li>
             <NavLink to={{
@@ -28,9 +27,8 @@ const Blog = () => (
     </header>
     {/* < Route path="/" exact render={()=> <h1>Home</h1>} /> */}
     <Switch>
-      <Route path="/" exact component={Posts} />
       <Route path="/new-post" component={NewPost} />
-      <Route path="/:id" component={FullPost} />
+      <Route path="/posts" component={Posts} />
     </Switch>
   </div>
 );

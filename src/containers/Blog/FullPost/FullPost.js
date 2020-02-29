@@ -4,9 +4,9 @@ import axios from 'axios';
 import './FullPost.css';
 
 const FullPost = (props) => {
-  const [state, setState] = useState({
+  const [state, setPost] = useState({
     loadedPost: null,
-    hits: [],
+    // hits: [],
   });
 
   // const query = new URLSearchParams(this.props.location.search);
@@ -16,29 +16,32 @@ const FullPost = (props) => {
 
 
   useEffect(() => {
-    if (props.match.params.id) {
-    // console.log(state.loadedPost.id);
-      // if (!state.loadedPost || (state.loadedPost && state.loadedPost.id !== props.id)) {
-      axios.get(`/posts/${props.match.params.id}`)
-        .then((response) => {
-          setState({ loadedPost: response.data });
-        });
+    async function loadData() {
+      console.log('full post', props.match.params.id);
+      if (props.match.params.id) {
+        // if (!state.loadedPost || (state.loadedPost && state.loadedPost.id !== props.match.params.id)) {
+        const result = await axios.get(`/posts/${props.match.params.id}`);
+
+        setPost({ loadedPost: result.data });
+        // }
+      }
     }
-    // }
-  }, []);
+    loadData();
+  }, [props.match.params.id]);
+
 
   const deletePostHandler = () => {
-    axios.delete(`/posts/${props.id}`)
+    axios.delete(`/posts/${props.match.params.id}`)
       .then((response) => {
         // console.log(response);
-        setState({ loadedPost: response });
+        setPost({ loadedPost: response });
       });
   };
 
 
   let post = <p style={{ textAlign: 'center' }}>Please select a Post!</p>;
 
-  if (props.id) {
+  if (props.match.params.id) {
     post = <p style={{ textAlign: 'center' }}>Loading...!</p>;
   }
 

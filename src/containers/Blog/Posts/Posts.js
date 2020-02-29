@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import instance from 'axios';
 import Post from 'components/Post/Post';
-// import { Link } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import FullPost from 'containers/Blog/FullPost/FullPost';
 import styles from './Posts.module.css';
 
 const Posts = (props) => {
@@ -33,7 +34,7 @@ const Posts = (props) => {
   }, []);
 
   const postSelectedHandler = (id) => {
-    props.history.push({ pathname: `/${id}` });
+    props.history.push({ pathname: `/posts/${id}` });
   };
 
   let posts = <p style={{ textAlign: 'center' }}>Something went wrong!</p>;
@@ -49,9 +50,12 @@ const Posts = (props) => {
     // </Link>
   ));
   return (
-    <section className={styles.Posts}>
-      {posts}
-    </section>
+    <div>
+      <section className={styles.Posts}>
+        {posts}
+      </section>
+      <Route path={`${props.match.url}/:id`} exact component={FullPost} />
+    </div>
   );
 };
 
